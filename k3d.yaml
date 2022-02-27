@@ -1,0 +1,9 @@
+apiVersion: k3d.io/v1alpha3
+kind: Simple
+name: dapper-cluster
+servers: 1
+agents: 1
+ports:
+  - port: 80:80
+    nodeFilters:
+      - loadbalancer

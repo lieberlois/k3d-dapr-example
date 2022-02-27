@@ -1,0 +1,11 @@
+GET http://localhost/posts HTTP/1.1
+content-type: application/json
+
+
+POST http://localhost/posts HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Primary Title",
+    "body": "This is the body of the post"
+}

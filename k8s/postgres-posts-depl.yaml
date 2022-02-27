@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-posts-depl
+spec:
+  selector:
+    matchLabels:
+      app: postgres-posts-depl
+  template:
+    metadata:
+      labels:
+        app: postgres-posts-depl
+    spec:
+      containers:
+      - name: postgres-posts-depl
+        image: postgres:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: "root"
+        - name: POSTGRES_PASSWORD
+          value: "root"
+        - name: POSTGRES_DB
+          value: "posts_db"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-posts-srv
+spec:
+  selector:
+    app: postgres-posts-depl
+  ports:
+  - port: 5432
+    targetPort: 5432
