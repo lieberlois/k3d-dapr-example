@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: posts-depl
-        image: lieberlois/posts-service
+        image: k3d-registry.localhost:5000/posts-service
         resources:
           limits:
             memory: "128Mi"
