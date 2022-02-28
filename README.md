@@ -1,6 +1,21 @@
 # Example microservice application with DAPR and Kubernetes using Rancher K3D
 
-## Startup
+## Technologies
+
+This section describes the used technologies for this project.
+
+### Services
+
+| Service          	| Technology            	|
+|------------------	|-----------------------	|
+| AnalyticsService 	| Golang w/ Gorilla Mux 	|
+| PostService      	| ASP.NET Core 6        	|
+
+### Deployment
+
+All of the listed services are being dockerized with their respective Dockerfiles and then deployed in a local Rancher K3D Kubernetes cluster. By using the `annotations`-section of the deployment manifests, Dapr then injects a sidecar container into each pod of the deployments, that handles all microservice-relevant communication (pubsub, state, etc.). For pubsub-communication, an instance of Redis is being used in development, which can easily be switched out by editing the `dapr-redis.yaml`-manifest.
+
+## Getting Started
 
 Create a K3D Cluster
 
