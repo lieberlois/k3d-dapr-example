@@ -29,8 +29,6 @@ func main() {
 	if err := s.Start(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("error listenning: %v", err)
 	}
-
-	log.Printf("Now listening to subscription: %v", postsSubscription)
 }
 
 func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {

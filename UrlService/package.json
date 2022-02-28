@@ -1,0 +1,14 @@
+{
+  "name": "UrlService",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^17.0.21",
+    "dapr-client": "^2.1.0",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  },
+  "scripts": {
+    "serve": "ts-node app.ts"
+  }
+}

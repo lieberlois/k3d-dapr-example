@@ -1,4 +1,4 @@
-# Example microservice application with DAPR and Kubernetes using Rancher K3D
+# Microservices with DAPR and Kubernetes using Rancher K3D
 
 ## Technologies
 
@@ -6,10 +6,13 @@ This section describes the used technologies for this project.
 
 ### Services
 
+The gist of this demo application is in the creating of posts and the distributed analysis of these. The `PostsService` exposes a restful API with one GET- and one POST-route, that are responsible for listing and creating new posts. Once a post is created, an event is published onto the Redis pubsub broker. The `AnalyticsService` listens to the topic where this event is created and analyzes the post data (for this demo application, it only performs a word count). Before the post is stored in the `PostgreSQL` instance of the `PostsService`, a URL has to be found for the resource. This URL can be queried by service invocation to the `UrlService`, which returns `http://www.example.com/lower-case-post-title`.
+
 | Service          	| Technology            	|
 |------------------	|-----------------------	|
 | AnalyticsService 	| Golang w/ Gorilla Mux 	|
-| PostService      	| ASP.NET Core 6        	|
+| PostsService      | ASP.NET Core 6        	|
+| UrlService        | Node.js, Express, TS      |
 
 ### Deployment
 
@@ -24,7 +27,7 @@ k3d registry create registry.localhost --port 5000
 k3d cluster create -c k3d.yaml --registry-use k3d-registry.localhost:5000
 ```
 
-Install Dapr
+Install Dapr in your K8s cluster
 
 ```sh
 # Install Dapr CLI
@@ -46,14 +49,17 @@ Now build the necessary docker images, tag them and deploy to the local registry
 # Build
 docker build -t posts-service ./PostsService
 docker build -t analytics-service ./AnalyticsService
+docker build -t url-service ./UrlService
 
 # Tag
 docker tag posts-service k3d-registry.localhost:5000/posts-service
 docker tag analytics-service k3d-registry.localhost:5000/analytics-service
+docker tag url-service k3d-registry.localhost:5000/url-service
 
 # Push
 docker push k3d-registry.localhost:5000/posts-service
 docker push k3d-registry.localhost:5000/analytics-service
+docker push k3d-registry.localhost:5000/url-service
 ```
 
 Now run the application by creating all resources in K8s.

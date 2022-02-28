@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 // Dependency Injection
 builder.Services.AddScoped<IPostsRepository, PostsRepository>();
 builder.Services.AddScoped<IPostsPublishService, PostsPublishService>();
+builder.Services.AddScoped<IUrlService, UrlService>();
 
 // EF Core
 var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-depl
+spec:
+  selector:
+    matchLabels:
+      app: url-depl
+  template:
+    metadata:
+      labels:
+        app: url-depl
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "url-depl"
+        dapr.io/app-port: "3000"
+        dapr.io/config: "tracing"
+        dapr.io/log-level: "debug"
+    spec:
+      containers:
+      - name: url-depl
+        image: k3d-registry.localhost:5000/url-service
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: url-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: url-depl
+  ports:
+  - port: 3000
+    targetPort: 3000
+

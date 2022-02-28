@@ -14,7 +14,6 @@ namespace PostsService.DaprServices
 
         public async Task PublishPost(Post post)
         {
-            Console.WriteLine($"Publishing Post {post.Title}");
             await this._daprClient.PublishEventAsync<Post>("pubsub", "posts", post);
         }
     }
