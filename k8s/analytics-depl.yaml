@@ -14,7 +14,7 @@ spec:
         dapr.io/enabled: "true"
         dapr.io/app-id: "analytics-depl"
         dapr.io/app-port: "6000"
-        # dapr.io/config: "tracing"
+        dapr.io/config: "tracing"
         dapr.io/log-level: "debug"
     spec:
       containers:

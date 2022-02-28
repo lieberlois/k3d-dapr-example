@@ -15,3 +15,10 @@ spec:
             name: posts-srv
             port:
               number: 80
+      - path: /zipkin
+        pathType: Prefix
+        backend:
+          service:
+            name: zipkin-srv
+            port:
+              number: 9411
