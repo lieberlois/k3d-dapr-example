@@ -1,4 +1,5 @@
 using PostsService.Data;
+using PostsService.DaprServices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 // Dependency Injection
 builder.Services.AddScoped<IPostsRepository, PostsRepository>();
+builder.Services.AddScoped<IPostsPublishService, PostsPublishService>();
 
 // EF Core
 var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
