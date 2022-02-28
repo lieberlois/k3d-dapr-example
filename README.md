@@ -18,6 +18,10 @@ The gist of this demo application is in the creating of posts and the distribute
 
 All of the listed services are being dockerized with their respective Dockerfiles and then deployed in a local Rancher K3D Kubernetes cluster. By using the `annotations`-section of the deployment manifests, Dapr then injects a sidecar container into each pod of the deployments, that handles all microservice-relevant communication (pubsub, state, etc.). For pubsub-communication, an instance of Redis is being used in development, which can easily be switched out by editing the `dapr-redis.yaml`-manifest.
 
+### Observabilty 
+
+Since Dapr allows developers to observe each and every event, service invocation, etc. [Zipkin](http://localhost/zipkin) can be used to follow traces within the cluster. Also, the Dapr Dashboard (you can start it with `dapr dashboard -k`), can be used to show health metrics and such for each Dapr Sidecar.
+
 ## Getting Started
 
 Create a K3D Cluster
