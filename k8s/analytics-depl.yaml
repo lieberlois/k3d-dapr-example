@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-depl
+spec:
+  selector:
+    matchLabels:
+      app: analytics-depl
+  template:
+    metadata:
+      labels:
+        app: analytics-depl
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "analytics-depl"
+        dapr.io/app-port: "6000"
+        # dapr.io/config: "tracing"
+        dapr.io/log-level: "debug"
+    spec:
+      containers:
+      - name: analytics-depl
+        image: k3d-registry.localhost:5000/analytics-service
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 6000

@@ -30,12 +30,15 @@ Now build the necessary docker images, tag them and deploy to the local registry
 ```sh
 # Build
 docker build -t posts-service ./PostsService
+docker build -t analytics-service ./AnalyticsService
 
 # Tag
 docker tag posts-service k3d-registry.localhost:5000/posts-service
+docker tag analytics-service k3d-registry.localhost:5000/analytics-service
 
 # Push
 docker push k3d-registry.localhost:5000/posts-service
+docker push k3d-registry.localhost:5000/analytics-service
 ```
 
 Now run the application by creating all resources in K8s.
