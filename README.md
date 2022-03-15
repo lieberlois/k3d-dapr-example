@@ -12,7 +12,7 @@ The gist of this demo application is in the creating of posts and the distribute
 |------------------	|-----------------------	|
 | AnalyticsService 	| Golang w/ Gorilla Mux 	|
 | PostsService      | ASP.NET Core 6        	|
-| UrlService        | Node.js, Express, TS      |
+| UrlService        | Node.js, TS, dapr-client  |
 
 ### Deployment
 
