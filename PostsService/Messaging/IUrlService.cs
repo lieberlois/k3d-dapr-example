@@ -1,6 +1,6 @@
 using PostsService.Models;
 
-namespace PostsService.DaprServices
+namespace PostsService.Messaging
 {
     public interface IUrlService
     {

@@ -1,5 +1,5 @@
 using PostsService.Data;
-using PostsService.DaprServices;
+using PostsService.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +11,8 @@ builder.Services.AddSwaggerGen();
 
 // Dependency Injection
 builder.Services.AddScoped<IPostsRepository, PostsRepository>();
-builder.Services.AddScoped<IPostsPublishService, PostsPublishService>();
-builder.Services.AddScoped<IUrlService, UrlService>();
+builder.Services.AddSingleton<IUrlService, UrlService>();
+builder.Services.AddSingleton<IPostsPublishService, DaprPostsPublishService>();
 
 // EF Core
 if (builder.Environment.IsDevelopment())
@@ -56,7 +56,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

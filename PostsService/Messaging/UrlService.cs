@@ -1,7 +1,7 @@
 using PostsService.Models;
 using Dapr.Client;
 
-namespace PostsService.DaprServices
+namespace PostsService.Messaging
 {
     public class UrlService : IUrlService
     {

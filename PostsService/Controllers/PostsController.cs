@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using PostsService.Dtos;
 using PostsService.Models;
 using PostsService.Data;
-using PostsService.DaprServices;
+using PostsService.Messaging;
 
 namespace PostsService.Controllers;
 

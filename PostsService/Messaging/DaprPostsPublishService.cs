@@ -1,13 +1,13 @@
 using PostsService.Models;
 using Dapr.Client;
 
-namespace PostsService.DaprServices
+namespace PostsService.Messaging
 {
-    public class PostsPublishService : IPostsPublishService
+    public class DaprPostsPublishService : IPostsPublishService
     {
         private readonly DaprClient _daprClient;
 
-        public PostsPublishService()
+        public DaprPostsPublishService()
         {
             this._daprClient = new DaprClientBuilder().Build();
         }
