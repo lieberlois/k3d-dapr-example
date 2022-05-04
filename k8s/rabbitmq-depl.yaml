@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-depl
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq-depl
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-depl
+    spec:
+      containers:
+      - name: rabbitmq-depl
+        image: rabbitmq:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5672
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: rabbitmq-depl
+  ports:
+  - port: 5672
+    targetPort: 5672
+

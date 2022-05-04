@@ -72,6 +72,14 @@ Now run the application by creating all resources in K8s.
 kubectl apply -f ./k8s
 ```
 
+## Development
+
+For development purposes, there are some utility scripts in the ./bin folder.
+
+* ```restart.sh``` will restart the deployments that run the implemented services.
+* ```redeploy.sh``` will rebuild and push the images and redeploy the containers.
+* ```reconfigure.sh``` will seamlessly switch out Redis for RabbitMQ (or vice versa).
+
 ## Cleanup
 
 To clean up all resources, use the following commands.
