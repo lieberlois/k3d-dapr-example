@@ -22,3 +22,10 @@ spec:
             name: zipkin-srv
             port:
               number: 9411
+      - path: /jaeger
+        pathType: Prefix
+        backend:
+          service:
+            name: jaeger-operator-srv
+            port:
+              number: 16686

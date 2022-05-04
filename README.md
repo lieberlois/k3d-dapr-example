@@ -20,7 +20,7 @@ All of the listed services are being dockerized with their respective Dockerfile
 
 ### Observabilty 
 
-Since Dapr allows developers to observe each and every event, service invocation, etc. [Zipkin](http://localhost/zipkin) can be used to follow traces within the cluster. Also, the Dapr Dashboard (you can start it with `dapr dashboard -k`), can be used to show health metrics and such for each Dapr Sidecar.
+Since Dapr allows developers to observe each and every event, service invocation, etc. [Zipkin](http://localhost/zipkin) or [Jaeger](http://localhost/jaeger) can be used to follow traces within the cluster. Use the file ```dapr-tracing.yaml``` to decide between the two. Also, the Dapr Dashboard (you can start it with `dapr dashboard -k`), can be used to show health metrics and such for each Dapr Sidecar.
 
 ## Getting Started
 

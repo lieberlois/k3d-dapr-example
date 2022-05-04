@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jaeger-operator-depl
+spec:
+  selector:
+    matchLabels:
+      app: jaeger-operator-depl
+  template:
+    metadata:
+      labels:
+        app: jaeger-operator-depl
+    spec:
+      containers:
+      - name: jaeger-operator-depl
+        image: jaegertracing/all-in-one:1.22
+        env:
+        - name: QUERY_BASE_PATH
+          value: /jaeger
+        - name: COLLECTOR_ZIPKIN_HOST_PORT
+          value: "9411"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 16686
+        - containerPort: 9411
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger-operator-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: jaeger-operator-depl
+  ports:
+  - port: 16686
+    targetPort: 16686
+    name: ui
+  - port: 9411
+    targetPort: 9411
+    name: metrics
+
