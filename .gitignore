@@ -1,5 +1,3 @@
-**/bin
+PostsService/bin
 **/obj
 **/.vscode
-
-!./bin
