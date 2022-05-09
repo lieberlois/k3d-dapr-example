@@ -1,9 +1,7 @@
 package main
 
 import (
-	"AnalyticsService/analytics"
-	"AnalyticsService/models"
-	"context"
+	"AnalyticsService/messaging"
 	"log"
 	"net/http"
 
@@ -18,40 +16,14 @@ var postsSubscription = &common.Subscription{
 }
 
 func main() {
-	log.Println("Connecting to pubsub message bus...")
-
+	log.Println("Connecting to DAPR sidecar...")
 	s := daprd.NewService(":6000")
 
-	if err := s.AddTopicEventHandler(postsSubscription, eventHandler); err != nil {
+	if err := s.AddTopicEventHandler(postsSubscription, messaging.EventHandler); err != nil {
 		log.Fatalf("error adding topic subscription: %v", err)
 	}
 
 	if err := s.Start(); err != nil && err != http.ErrServerClosed {
-		log.Fatalf("error listenning: %v", err)
+		log.Fatalf("error listening: %v", err)
 	}
-}
-
-func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
-
-	log.Printf("Got data: %v with type %T", e.Data, e.Data)
-
-	postData, ok := e.Data.(map[string]interface{})
-
-	if !ok {
-		log.Fatal("Corrupt post data")
-	}
-
-	id, _ := postData["id"].(string)
-	title, _ := postData["title"].(string)
-	body, _ := postData["body"].(string)
-
-	analytics.AnalyzeWords(
-		models.Post{
-			Id:    id,
-			Title: title,
-			Body:  body,
-		},
-	)
-
-	return false, nil
 }

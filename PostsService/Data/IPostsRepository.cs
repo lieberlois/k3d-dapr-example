@@ -6,7 +6,6 @@ namespace PostsService.Data
     {
         IEnumerable<Post> GetPosts();
         void CreatePost(Post post);
-
         bool SaveChanges();
     }
 }

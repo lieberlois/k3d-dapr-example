@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PostsService.Models;
 
 namespace PostsService.Data
@@ -14,7 +15,10 @@ namespace PostsService.Data
 
         public IEnumerable<Post> GetPosts()
         {
-            return this._context.Posts.ToList();
+            return this._context
+                .Posts
+                .Include(p => p.Stats)
+                .ToList();
         }
 
         public void CreatePost(Post post)

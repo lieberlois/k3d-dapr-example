@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-rollout() {
-    kubectl rollout restart deployment posts-depl > /dev/null
-    kubectl rollout restart deployment analytics-depl > /dev/null
-    kubectl rollout restart deployment url-depl > /dev/null
-}
-
 build() {
     echo Building docker images ...
     docker build -t posts-service ./PostsService > /dev/null &
@@ -35,18 +29,8 @@ tag
 push
 
 echo Rolling out deployments ...
-running_deployments=$(kubectl get deployments)
 
-if [[ 
-    $running_deployments && 
-    "$running_deployments" =~ "posts-depl" && 
-    "$running_deployments" =~ "analytics-depl" && 
-    "$running_deployments" =~ "url-depl" 
-]]; then
-    rollout
-else
-    kubectl delete -f ./k8s/posts-depl.yaml
-    kubectl delete -f ./k8s/analytics-depl.yaml
-    kubectl delete -f ./k8s/url-depl.yaml
-    kubectl apply -f ./k8s
-fi
+kubectl delete -f ./k8s/posts-depl.yaml
+kubectl delete -f ./k8s/analytics-depl.yaml
+kubectl delete -f ./k8s/url-depl.yaml
+kubectl apply -f ./k8s

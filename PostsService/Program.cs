@@ -1,16 +1,25 @@
 using PostsService.Data;
 using PostsService.Messaging;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder
+    .Services
+    .AddControllers()
+    .AddDapr()
+    .AddJsonOptions(
+        options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+    );
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Dependency Injection
 builder.Services.AddScoped<IPostsRepository, PostsRepository>();
+builder.Services.AddScoped<IStatsRepository, StatsRepository>();
 builder.Services.AddSingleton<IUrlService, UrlService>();
 builder.Services.AddSingleton<IPostsPublishService, DaprPostsPublishService>();
 
@@ -28,7 +37,9 @@ else
 {
     Console.WriteLine("[INFO] Using Postgres-Database");
     var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+    builder.Services.AddDbContext<AppDbContext>(
+        options => options.UseNpgsql(connectionString)
+    );
 }
 
 // PostgreSQL Container:
@@ -48,7 +59,6 @@ if (!app.Environment.IsDevelopment())
     }
 }
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -60,6 +70,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
+app.UseCloudEvents();
 app.MapControllers();
+app.MapSubscribeHandler();
 
 app.Run();

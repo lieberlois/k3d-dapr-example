@@ -7,6 +7,6 @@ POST http://localhost/posts HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Title",
+    "title": "What a nice title",
     "body": "This is the body of the post"
 }

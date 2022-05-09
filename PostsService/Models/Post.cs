@@ -9,4 +9,6 @@ public class Post
     public string Body { get; set; }
 
     public string Url { get; set; }
+
+    public virtual Stats Stats { get; set; }
 }
