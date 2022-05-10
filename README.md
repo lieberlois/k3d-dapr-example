@@ -16,7 +16,7 @@ The gist of this demo application is in the creating of posts and the distribute
 
 ### Deployment
 
-All of the listed services are being dockerized with their respective Dockerfiles and then deployed in a local Rancher K3D Kubernetes cluster. By using the `annotations`-section of the deployment manifests, Dapr then injects a sidecar container into each pod of the deployments, that handles all microservice-relevant communication (pubsub, state, etc.). For pubsub-communication, an instance of Redis is being used in development, which can easily be switched out by editing the `dapr-redis.yaml`-manifest.
+All of the listed services are being dockerized with their respective Dockerfiles and then deployed in a local Rancher K3D Kubernetes cluster. By using the `annotations`-section of the deployment manifests, Dapr then injects a sidecar container into each pod of the deployments, that handles all microservice-relevant communication (pubsub, state, etc.). For pubsub-communication, an instance of Redis / RabbitMQ is being used during development, which can easily be switched out by editing the `dapr-pubsub.yaml`-manifest.
 
 ### Observabilty 
 
