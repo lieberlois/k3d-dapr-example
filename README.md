@@ -20,6 +20,9 @@ All of the listed services are being dockerized with their respective Dockerfile
 
 ```sh
 # Replace the 'connectionString'-secret with the connection string to your Service Bus Namespace (use a Shared access policy for this)
+
+# Note: the namespace has to be set to at least "Standard" pricing tier
+
 kubectl create secret generic azure-service-bus --from-literal=connectionString="Endpoint=<...>"
 ```
 
