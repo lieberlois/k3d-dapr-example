@@ -93,6 +93,11 @@ For development purposes, there are some utility scripts in the ./bin folder.
 To clean up all resources, use the following commands.
 
 ```sh
+# Kubernetes
+kubectl delete all --all
 k3d cluster delete dapper-cluster
 k3d registry delete registry.localhost
+
+# Terraform (only if used)
+terraform destroy
 ```
