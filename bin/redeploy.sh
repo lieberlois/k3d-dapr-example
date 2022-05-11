@@ -29,8 +29,4 @@ tag
 push
 
 echo Rolling out deployments ...
-
-kubectl delete -f ./k8s/posts-depl.yaml
-kubectl delete -f ./k8s/analytics-depl.yaml
-kubectl delete -f ./k8s/url-depl.yaml
-kubectl apply -f ./k8s
+sh $(pwd)/bin/restart.sh

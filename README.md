@@ -14,7 +14,7 @@ The gist of this demo application is in the creating of posts and the distribute
 | PostsService      | ASP.NET Core 6        	|
 | UrlService        | Node.js, TS, dapr-client  |
 
-### Deployment
+### Deployment Strategy
 
 All of the listed services are being dockerized with their respective Dockerfiles and then deployed in a local Rancher K3D Kubernetes cluster. By using the `annotations`-section of the deployment manifests, Dapr then injects a sidecar container into each pod of the deployments, that handles all microservice-relevant communication (pubsub, state, etc.). For pubsub-communication, an instance of Redis / RabbitMQ is being used during development, which can easily be switched out by editing the `dapr-pubsub.yaml`-manifest. To use `Azure Service Bus` for pubsub-communication, create a Kubernetes secret before startup:
 
@@ -24,6 +24,17 @@ All of the listed services are being dockerized with their respective Dockerfile
 # Note: the namespace has to be set to at least "Standard" pricing tier
 
 kubectl create secret generic azure-service-bus --from-literal=connectionString="Endpoint=<...>"
+```
+
+Alternatively, you can use `Terraform` to automatically deploy the necessary Azure resources and store the necessary secrets in your local Kubernetes cluster. Note: the connection string is configured as an output within Terraform, so this configuration should NOT be used in production!
+
+```sh
+# Deploy infrastructure
+az login
+terraform apply
+
+# Add connection string as a Kubernetes secret
+kubectl create secret generic azure-service-bus --from-literal=connectionString="$(terraform output service_bus_conn)"
 ```
 
 ### Observabilty 
@@ -48,30 +59,19 @@ wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O 
 dapr init -k
 ```
 
-Add the local registry domain name to your local hosts file.
+Add the local registry domain name `k3d-registry.localhost` to your local hosts file.
 
 ```sh
 # /etc/hosts
-127.0.0.1       k3d-registry.localhost
+sudo sh -c 'echo "127.0.0.1       k3d-registry.localhost" >> /etc/hosts'
 ```
 
 Now build the necessary docker images, tag them and deploy to the local registry.
+Note that this command might take a while (several minutes) when executed for the first time.
 
 ```sh
 # Build
-docker build -t posts-service ./PostsService
-docker build -t analytics-service ./AnalyticsService
-docker build -t url-service ./UrlService
-
-# Tag
-docker tag posts-service k3d-registry.localhost:5000/posts-service
-docker tag analytics-service k3d-registry.localhost:5000/analytics-service
-docker tag url-service k3d-registry.localhost:5000/url-service
-
-# Push
-docker push k3d-registry.localhost:5000/posts-service
-docker push k3d-registry.localhost:5000/analytics-service
-docker push k3d-registry.localhost:5000/url-service
+./bin/redeploy.sh
 ```
 
 Now run the application by creating all resources in K8s.

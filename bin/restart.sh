@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 echo Restarting deployments ...
-kubectl rollout restart deployment posts-depl > /dev/null
-kubectl rollout restart deployment analytics-depl > /dev/null
-kubectl rollout restart deployment url-depl > /dev/null
+kubectl delete -f ./k8s/posts-depl.yaml
+kubectl delete -f ./k8s/analytics-depl.yaml
+kubectl delete -f ./k8s/url-depl.yaml
+kubectl apply -f ./k8s
 echo Done!
