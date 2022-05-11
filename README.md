@@ -24,7 +24,6 @@ To use `Azure Service Bus` for pubsub-communication, create a Kubernetes secret 
 
 ```sh
 # Replace the 'connectionString'-secret with the connection string to your Service Bus Namespace (use a Shared access policy for this)
-
 # Note: the namespace has to be set to at least "Standard" pricing tier
 
 $ kubectl create secret generic azure-service-bus --from-literal=connectionString="Endpoint=<...>"
@@ -67,7 +66,7 @@ Add the local registry domain name `k3d-registry.localhost` to your local hosts 
 
 ```sh
 # /etc/hosts
-sudo sh -c 'echo "127.0.0.1       k3d-registry.localhost" >> /etc/hosts'
+$ sudo sh -c 'echo "127.0.0.1       k3d-registry.localhost" >> /etc/hosts'
 ```
 
 Now build the necessary docker images, tag them, deploy to the local registry and apply the manifests to K8s.
@@ -97,5 +96,5 @@ $ k3d cluster delete dapper-cluster
 $ k3d registry delete registry.localhost
 
 # Terraform (only if used)
-terraform destroy
+$ terraform destroy
 ```
