@@ -17,12 +17,9 @@ if [[
     $redis_count -gt 0
 ]]; then
     echo Switching to RabbitMQ...
-    kubectl apply -f ./k8s/rabbitmq-depl.yaml
-    kubectl apply -f ./k8s/dapr-pubsub.yaml
-    sh $(pwd)/bin/restart.sh
 else
     echo Switching to Redis...
-    kubectl apply -f ./k8s/redis-depl.yaml
-    kubectl apply -f ./k8s/dapr-pubsub.yaml
-    sh $(pwd)/bin/restart.sh
 fi
+
+kubectl apply -f ./k8s/dapr-pubsub.yaml
+sh $(pwd)/bin/restart.sh

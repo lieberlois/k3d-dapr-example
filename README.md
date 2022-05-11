@@ -16,7 +16,12 @@ The gist of this demo application is in the creating of posts and the distribute
 
 ### Deployment
 
-All of the listed services are being dockerized with their respective Dockerfiles and then deployed in a local Rancher K3D Kubernetes cluster. By using the `annotations`-section of the deployment manifests, Dapr then injects a sidecar container into each pod of the deployments, that handles all microservice-relevant communication (pubsub, state, etc.). For pubsub-communication, an instance of Redis / RabbitMQ is being used during development, which can easily be switched out by editing the `dapr-pubsub.yaml`-manifest.
+All of the listed services are being dockerized with their respective Dockerfiles and then deployed in a local Rancher K3D Kubernetes cluster. By using the `annotations`-section of the deployment manifests, Dapr then injects a sidecar container into each pod of the deployments, that handles all microservice-relevant communication (pubsub, state, etc.). For pubsub-communication, an instance of Redis / RabbitMQ is being used during development, which can easily be switched out by editing the `dapr-pubsub.yaml`-manifest. To use `Azure Service Bus` for pubsub-communication, create a Kubernetes secret before startup:
+
+```sh
+# Replace the 'connectionString'-secret with the connection string to your Service Bus Namespace (use a Shared access policy for this)
+kubectl create secret generic azure-service-bus --from-literal=connectionString="Endpoint=<...>"
+```
 
 ### Observabilty 
 

@@ -54,3 +54,17 @@ spec:
 #     value: 10485760
 #   - name: exchangeKind
 #     value: fanout
+
+# Azure Service Bus
+# apiVersion: dapr.io/v1alpha1
+# kind: Component
+# metadata:
+#   name: pubsub
+# spec:
+#   type: pubsub.azure.servicebus
+#   version: v1
+#   metadata:
+#   - name: connectionString
+#     secretKeyRef:
+#       name: azure-service-bus
+#       key: connectionString
