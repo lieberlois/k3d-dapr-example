@@ -26,18 +26,18 @@ To use `Azure Service Bus` for pubsub-communication, create a Kubernetes secret 
 # Replace the 'connectionString'-secret with the connection string to your Service Bus Namespace (use a Shared access policy for this)
 # Note: the namespace has to be set to at least "Standard" pricing tier
 
-$ kubectl create secret generic azure-service-bus --from-literal=connectionString="Endpoint=<...>"
+kubectl create secret generic azure-service-bus --from-literal=connectionString="Endpoint=<...>"
 ```
 
 Alternatively, you can use `Terraform` to automatically deploy the necessary Azure resources and store the necessary secrets in your local Kubernetes cluster. Note: the connection string is configured as an output within Terraform, so this configuration should NOT be used in production!
 
 ```sh
 # Deploy infrastructure
-$ az login
-$ terraform apply
+az login
+terraform apply
 
 # Add connection string as a Kubernetes secret
-$ kubectl create secret generic azure-service-bus --from-literal=connectionString="$(terraform output service_bus_conn)"
+kubectl create secret generic azure-service-bus --from-literal=connectionString="$(terraform output service_bus_conn)"
 ```
 
 ### Observabilty 
@@ -49,24 +49,24 @@ Since Dapr allows developers to observe each and every event, service invocation
 Create a K3D Cluster
 
 ```sh
-$ k3d registry create registry.localhost --port 5000
-$ k3d cluster create -c k3d.yaml --registry-use k3d-registry.localhost:5000
+k3d registry create registry.localhost --port 5000
+k3d cluster create -c k3d.yaml --registry-use k3d-registry.localhost:5000
 ```
 
 Install Dapr in your K8s cluster
 
 ```sh
 # Install Dapr CLI
-$ wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
+wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
 # Initialize in K8s
-$ dapr init -k
+dapr init -k
 ```
 
 Add the local registry domain name `k3d-registry.localhost` to your local hosts file.
 
 ```sh
 # /etc/hosts
-$ sudo sh -c 'echo "127.0.0.1       k3d-registry.localhost" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1       k3d-registry.localhost" >> /etc/hosts'
 ```
 
 Now build the necessary docker images, tag them, deploy to the local registry and apply the manifests to K8s.
@@ -74,7 +74,7 @@ Note that this command might take a while (several minutes) when executed for th
 
 ```sh
 # Build
-$ ./bin/redeploy.sh
+./bin/redeploy.sh
 ```
 
 ## Development
@@ -91,10 +91,10 @@ To clean up all resources, use the following commands.
 
 ```sh
 # Kubernetes
-$ kubectl delete all --all
-$ k3d cluster delete dapper-cluster
-$ k3d registry delete registry.localhost
+kubectl delete all --all
+k3d cluster delete dapper-cluster
+k3d registry delete registry.localhost
 
 # Terraform (only if used)
-$ terraform destroy
+terraform destroy
 ```
