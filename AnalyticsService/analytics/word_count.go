@@ -12,7 +12,7 @@ func AnalyzeWords(postData models.Post) models.Stats {
 	bodySplice := strings.Split(postData.Body, " ")
 
 	// Simulate delay
-	time.Sleep(time.Second * 3)
+	time.Sleep(time.Second * 5)
 
 	println()
 	println("Post", postData.Id)

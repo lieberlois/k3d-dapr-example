@@ -5,7 +5,7 @@ build() {
     docker build -t posts-service ./PostsService
     docker build -t analytics-service ./AnalyticsService
     docker build -t url-service ./UrlService
-    wait
+    docker build -t client ./client
 }
 
 tag() {
@@ -13,7 +13,7 @@ tag() {
     docker tag posts-service k3d-registry.localhost:5000/posts-service
     docker tag analytics-service k3d-registry.localhost:5000/analytics-service
     docker tag url-service k3d-registry.localhost:5000/url-service
-    wait
+    docker tag client k3d-registry.localhost:5000/client
 }
 
 push() {
@@ -21,7 +21,7 @@ push() {
     docker push k3d-registry.localhost:5000/posts-service
     docker push k3d-registry.localhost:5000/analytics-service
     docker push k3d-registry.localhost:5000/url-service
-    wait
+    docker push k3d-registry.localhost:5000/client
 }
 
 build

@@ -2,6 +2,7 @@ using PostsService.Data;
 using PostsService.Messaging;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Cors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,11 @@ else
 // docker run -it --env POSTGRES_USER=root --env POSTGRES_PASSWORD=root --env POSTGRES_DB=posts_db -p 5432:5432 postgres:latest
 
 var app = builder.Build();
+
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 // Run migration in production mode
 if (!app.Environment.IsDevelopment())

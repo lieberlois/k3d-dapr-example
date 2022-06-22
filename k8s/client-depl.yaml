@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-depl
+spec:
+  selector:
+    matchLabels:
+      app: client-depl
+  template:
+    metadata:
+      labels:
+        app: client-depl
+    spec:
+      containers:
+      - name: client-depl
+        image: k3d-registry.localhost:5000/client
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "125m"
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: client-depl
+  ports:
+  - port: 8080
+    targetPort: 8080
