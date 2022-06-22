@@ -18,28 +18,6 @@ The gist of this demo application is in the creating of posts and the distribute
 
 All of the listed services are being dockerized with their respective Dockerfiles and then deployed in a local Rancher K3D Kubernetes cluster. By using the `annotations`-section of the deployment manifests, Dapr then injects a sidecar container into each pod of the deployments, that handles all microservice-relevant communication (pubsub, state, etc.). For pubsub-communication, an instance of Redis / RabbitMQ is being used during development, which can easily be switched out by editing the `dapr-pubsub.yaml`-manifest. 
 
-#### Azure Resources
-
-To use `Azure Service Bus` for pubsub-communication, create a Kubernetes secret before startup:
-
-```sh
-# Replace the 'connectionString'-secret with the connection string to your Service Bus Namespace (use a Shared access policy for this)
-# Note: the namespace has to be set to at least "Standard" pricing tier
-
-kubectl create secret generic azure-service-bus --from-literal=connectionString="Endpoint=<...>"
-```
-
-Alternatively, you can use `Terraform` to automatically deploy the necessary Azure resources and store the necessary secrets in your local Kubernetes cluster. Note: the connection string is configured as an output within Terraform, so this configuration should NOT be used in production!
-
-```sh
-# Deploy infrastructure
-az login
-terraform apply
-
-# Add connection string as a Kubernetes secret
-kubectl create secret generic azure-service-bus --from-literal=connectionString="$(terraform output service_bus_conn)"
-```
-
 ### Observabilty 
 
 Since Dapr allows developers to observe each and every event, service invocation, etc. [Zipkin](http://localhost/zipkin) or [Jaeger](http://localhost/jaeger) can be used to follow traces within the cluster. Use the file ```dapr-tracing.yaml``` to decide between the two. Also, the Dapr Dashboard (you can start it with `dapr dashboard -k`), can be used to show health metrics and such for each Dapr Sidecar.
@@ -84,6 +62,30 @@ For development purposes, there are some utility scripts in the ./bin folder.
 * ```restart.sh``` will restart the deployments that run the implemented services.
 * ```redeploy.sh``` will rebuild and push the images and redeploy the containers.
 * ```reconfigure.sh``` will seamlessly switch out Redis for RabbitMQ (or vice versa).
+
+#### Azure Resources
+
+To use `Azure Service Bus` for pubsub-communication, create a Kubernetes secret before startup:
+
+```sh
+# Replace the 'connectionString'-secret with the connection string to your Service Bus Namespace (use a Shared access policy for this)
+# Note: the namespace has to be set to at least "Standard" pricing tier
+
+kubectl create secret generic azure-service-bus --from-literal=connectionString="Endpoint=<...>"
+```
+
+Alternatively, you can use `Terraform` to automatically deploy the necessary Azure resources and store the necessary secrets in your local Kubernetes cluster. Note: the connection string is configured as an output within Terraform, so this configuration should NOT be used in production!
+
+```sh
+# Deploy infrastructure
+az login
+terraform apply
+
+# Add connection string as a Kubernetes secret
+kubectl create secret generic azure-service-bus --from-literal=connectionString="$(terraform output service_bus_conn)"
+```
+
+Now apply the configuration and restart the DAPR components.
 
 ## Cleanup
 
