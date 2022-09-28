@@ -19,7 +19,8 @@ spec:
     spec:
       containers:
       - name: analytics-depl
-        image: k3d-registry.localhost:5000/analytics-service
+        image: analytics-service
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
             memory: "128Mi"

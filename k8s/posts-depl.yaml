@@ -19,7 +19,8 @@ spec:
     spec:
       containers:
       - name: posts-depl
-        image: k3d-registry.localhost:5000/posts-service
+        image: posts-service
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
             memory: "128Mi"

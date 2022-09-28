@@ -13,7 +13,8 @@ spec:
     spec:
       containers:
       - name: client-depl
-        image: k3d-registry.localhost:5000/client
+        image: client
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
             memory: "128Mi"

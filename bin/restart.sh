@@ -1,8 +1,13 @@
-#!/usr/bin/env bash
+#!/bin/bash
+set -euo pipefail
 
 echo Restarting deployments ...
-kubectl delete -f ./k8s/posts-depl.yaml
-kubectl delete -f ./k8s/analytics-depl.yaml
-kubectl delete -f ./k8s/url-depl.yaml
-kubectl apply -f ./k8s
+if ! kubectl get deployments | grep posts-depl; then 
+    kubectl apply -f ./k8s
+else
+    kubectl rollout restart deployment/posts-depl
+    kubectl rollout restart deployment/analytics-depl
+    kubectl rollout restart deployment/url-depl
+    kubectl rollout restart deployment/client-depl
+fi
 echo Done!

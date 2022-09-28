@@ -2,8 +2,8 @@ apiVersion: k3d.io/v1alpha2
 kind: Simple
 name: dapr-cluster
 servers: 1
-agents: 1
+agents: 0
 ports:
-  - port: 80:80
+  - port: 8080:80
     nodeFilters:
       - loadbalancer

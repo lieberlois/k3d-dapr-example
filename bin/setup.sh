@@ -1,9 +1,11 @@
-# Setup resolv.conf entry
-sudo sh -c 'echo "127.0.0.1       k3d-registry.localhost" >> /etc/hosts'
+#!/bin/bash
+set -euo pipefail
 
 # Initialize k3d
-k3d registry create registry.localhost --port 5000
-k3d cluster create -c k3d.yaml --registry-use k3d-registry.localhost:5000
+
+if ! k3d cluster list | grep dapr-cluster > /dev/null; then
+    k3d cluster create -c k3d.yaml
+fi
 
 # Initialize in K8s
 dapr init -k

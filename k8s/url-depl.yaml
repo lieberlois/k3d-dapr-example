@@ -19,7 +19,8 @@ spec:
     spec:
       containers:
       - name: url-depl
-        image: k3d-registry.localhost:5000/url-service
+        image: url-service
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
             memory: "128Mi"
